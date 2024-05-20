@@ -91,6 +91,12 @@ public class EmployeeController {
 		return Result.success();
 	}
 	
+	/**
+	 * 分页查询
+	 *
+	 * @param employeePageQueryDTO
+	 * @return
+	 */
 	@GetMapping("/page")
 	@ApiOperation("分页查询员工接口")
 	public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
@@ -100,4 +106,12 @@ public class EmployeeController {
 		return Result.success(pageResult);
 	}
 	
+	@PostMapping("/status/{status}")
+	@ApiOperation("启用/禁用员工接口")
+	public Result modifyStatus(Integer id, @PathVariable Integer status) {
+		log.info("启用/禁用员工参数: {} {}", id, status);
+		employeeService.modifyStatus(id, status);
+		
+		return Result.success();
+	}
 }
