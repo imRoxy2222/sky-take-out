@@ -43,7 +43,7 @@ public class EmployeeController {
 	@PostMapping("/login")
 	@ApiOperation("员工登录接口")
 	public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
-		log.info("员工登录：{}", employeeLoginDTO);
+		log.info("员工登录参数 employeeDTO:{}", employeeLoginDTO);
 		
 		Employee employee = employeeService.login(employeeLoginDTO);
 		
@@ -85,7 +85,7 @@ public class EmployeeController {
 	@PostMapping
 	@ApiOperation("新增员工接口")
 	public Result<String> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
-		log.info("新增员工参数: {}", employeeDTO);
+		log.info("新增员工参数 employeeDTO:{}", employeeDTO);
 		employeeService.addEmployee(employeeDTO);
 		
 		return Result.success();
@@ -100,18 +100,55 @@ public class EmployeeController {
 	@GetMapping("/page")
 	@ApiOperation("分页查询员工接口")
 	public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO) {
-		log.info("分页查询员工参数: {}", employeePageQueryDTO);
+		log.info("分页查询员工参数 employeePageQueryDTO:{}", employeePageQueryDTO);
 		PageResult pageResult = employeeService.queryPage(employeePageQueryDTO);
 		
 		return Result.success(pageResult);
 	}
 	
+	/**
+	 * 启用/禁用员工
+	 *
+	 * @param id
+	 * @param status
+	 * @return
+	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("启用/禁用员工接口")
 	public Result modifyStatus(Integer id, @PathVariable Integer status) {
-		log.info("启用/禁用员工参数: {} {}", id, status);
+		log.info("启用/禁用员工参数 id:{} status:{}", id, status);
 		employeeService.modifyStatus(id, status);
 		
 		return Result.success();
+	}
+	
+	/**
+	 * 编辑员工接口
+	 *
+	 * @param employeeDTO
+	 * @return
+	 */
+	@PutMapping
+	@ApiOperation("编辑员工接口")
+	public Result modifyEmployee(@RequestBody EmployeeDTO employeeDTO) {
+		log.info("编辑员工接口参数 employeeDTO:{}", employeeDTO);
+		employeeService.modifyEmployee(employeeDTO);
+		
+		return Result.success();
+	}
+	
+	/**
+	 * 根据id查询员工
+	 *
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	@ApiOperation("根据id查询员工接口")
+	public Result<Employee> queryById(@PathVariable Integer id) {
+		log.info("根据id查询员工接口参数 id:{}", id);
+		Employee employee = employeeService.queryById(id);
+		
+		return Result.success(employee);
 	}
 }

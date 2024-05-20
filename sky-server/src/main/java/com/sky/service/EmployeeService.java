@@ -33,8 +33,24 @@ public interface EmployeeService {
 	
 	/**
 	 * 启用/禁用员工
+	 *
 	 * @param id
 	 * @param status
 	 */
 	void modifyStatus(Integer id, Integer status);
+	
+	/**
+	 * 编辑员工
+	 *
+	 * @param employeeDTO
+	 */
+	void modifyEmployee(EmployeeDTO employeeDTO);
+	
+	/**
+	 * 根据id查询员工
+	 *
+	 * @param id
+	 * @return
+	 */
+	Employee queryById(Integer id);
 }
