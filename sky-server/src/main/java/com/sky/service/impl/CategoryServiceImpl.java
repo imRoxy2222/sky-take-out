@@ -100,10 +100,10 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		// 状态先禁止
 		category.setStatus(StatusConstant.DISABLE);
-		category.setCreateTime(LocalDateTime.now());
-		category.setUpdateTime(LocalDateTime.now());
-		category.setCreateUser(BaseContext.getCurrentId());
-		category.setUpdateUser(BaseContext.getCurrentId());
+//		category.setCreateTime(LocalDateTime.now());
+//		category.setUpdateTime(LocalDateTime.now());
+//		category.setCreateUser(BaseContext.getCurrentId());
+//		category.setUpdateUser(BaseContext.getCurrentId());
 		
 		categoryMapper.insert(category);
 	}

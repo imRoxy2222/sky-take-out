@@ -80,7 +80,7 @@ public class EmployeeController {
 	 * 新增员工
 	 *
 	 * @param employeeDTO
-	 * @return
+	 * @return Result<String>
 	 */
 	@PostMapping
 	@ApiOperation("新增员工接口")
