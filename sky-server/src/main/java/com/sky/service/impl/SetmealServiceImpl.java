@@ -18,10 +18,10 @@ import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class SetmealServiceImpl implements SetmealService {
@@ -62,15 +62,11 @@ public class SetmealServiceImpl implements SetmealService {
 	 */
 	@Override
 	public void modifyStatus(Long id, Integer status) {
-		if (status != StatusConstant.ENABLE &&
-				status != StatusConstant.DISABLE) {
+		if (status != StatusConstant.ENABLE && status != StatusConstant.DISABLE) {
 			return;
 		}
 		
-		Setmeal setmeal = Setmeal.builder()
-				.status(status)
-				.id(id)
-				.build();
+		Setmeal setmeal = Setmeal.builder().status(status).id(id).build();
 		
 		setmealMapper.update(setmeal);
 	}
@@ -93,9 +89,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 */
 	@Override
 	public SetmealVO queryById(Long id) {
-		Setmeal setmeal = Setmeal.builder()
-				.id(id)
-				.build();
+		Setmeal setmeal = Setmeal.builder().id(id).build();
 		// 套餐查询
 		Setmeal query = setmealMapper.query(setmeal);
 		// 获取分类名称
@@ -113,7 +107,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 *
 	 * @param setmealDTO
 	 */
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void addSetmeal(SetmealDTO setmealDTO) {
 		// 查看关联的菜品是否都存在
@@ -127,28 +121,20 @@ public class SetmealServiceImpl implements SetmealService {
 			}
 		}
 		
-		// 新增的菜品,还没有自己的id,导致他关联的菜品都无法绑定id,因此这里手动生成
-		int id;
-		while (true) {
-			id = Math.abs(new Random().nextInt());
-			int i = setmealMapper.queryCountById(id);
-			if (i == 0) {
-				break;
-			}
-		}
+		// 插入套餐
+		Setmeal setmeal = new Setmeal();
+		BeanUtils.copyProperties(setmealDTO, setmeal);
+		setmealMapper.insert(setmeal);
+		
 		
 		// 关联菜品都存在,存储到数据库
 		List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
 		for (SetmealDish setmealDish : setmealDishes) {
-			setmealDish.setSetmealId((long) id);
+			setmealDish.setSetmealId(setmeal.getId());
 			setmealDishMapper.insert(setmealDish);
 		}
 		
-		// 插入套餐
-		Setmeal setmeal = new Setmeal();
-		BeanUtils.copyProperties(setmealDTO, setmeal);
-		setmeal.setId((long) id);
-		setmealMapper.insert(setmeal);
+		
 	}
 	
 	/**
@@ -156,7 +142,7 @@ public class SetmealServiceImpl implements SetmealService {
 	 *
 	 * @param setmealDTO
 	 */
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void updateSetmeal(SetmealDTO setmealDTO) {
 		Setmeal setmeal = new Setmeal();
