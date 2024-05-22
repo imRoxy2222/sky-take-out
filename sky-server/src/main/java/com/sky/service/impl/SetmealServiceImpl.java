@@ -133,8 +133,6 @@ public class SetmealServiceImpl implements SetmealService {
 			setmealDish.setSetmealId(setmeal.getId());
 			setmealDishMapper.insert(setmealDish);
 		}
-		
-		
 	}
 	
 	/**

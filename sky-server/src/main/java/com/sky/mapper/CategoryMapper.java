@@ -54,6 +54,12 @@ public interface CategoryMapper {
 	@Delete("delete from category where id = #{id}")
 	void deleteById(Integer id);
 	
+	/**
+	 * 查询分类名称
+	 *
+	 * @param id: 要查询的id
+	 * @return : 分类的名称
+	 */
 	@Select("select name from category where id = #{id}")
 	String queryByCategoryName(Long id);
 }

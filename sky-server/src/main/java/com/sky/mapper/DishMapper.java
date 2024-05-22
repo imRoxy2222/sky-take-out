@@ -1,6 +1,10 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
 import com.sky.entity.Dish;
+import com.sky.enumeration.OperationType;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -36,10 +40,33 @@ public interface DishMapper {
 	Dish queryById(Long dishId);
 	
 	/**
-	 * 查询
+	 * 分页查询
 	 *
-	 * @param setmeal
+	 * @param dish
 	 * @return
 	 */
-//	Setmeal query(Setmeal setmeal);
+	Page<Dish> query(Dish dish);
+	
+	/**
+	 * 更新
+	 *
+	 * @param dish : 更新的实体
+	 */
+	@AutoFill(OperationType.UPDATE)
+	void update(Dish dish);
+	
+	/**
+	 * 插入一条记录
+	 *
+	 * @param dish : 记录实体类
+	 */
+	void insert(Dish dish);
+	
+	/**
+	 * 根据id删除
+	 *
+	 * @param id: 自身id
+	 */
+	@Delete("delete from dish where id = #{id}")
+	void delete(Integer id);
 }
