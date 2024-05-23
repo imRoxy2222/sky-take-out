@@ -25,8 +25,8 @@ public class CategoryController {
 	/**
 	 * 修改菜品分类接口
 	 *
-	 * @param categoryDTO
-	 * @return
+	 * @param categoryDTO: 修改参数
+	 * @return : null
 	 */
 	@PutMapping
 	@ApiOperation("修改菜品分类")
@@ -40,8 +40,8 @@ public class CategoryController {
 	/**
 	 * 查看根据type查看所有列表
 	 *
-	 * @param type
-	 * @return
+	 * @param type : 菜品种类
+	 * @return : 当前种类所有菜品
 	 */
 	@GetMapping("/list")
 	@ApiOperation("显示所有菜品")
@@ -55,8 +55,8 @@ public class CategoryController {
 	/**
 	 * 分页查询菜品
 	 *
-	 * @param categoryPageQueryDTO
-	 * @return
+	 * @param categoryPageQueryDTO: 查询参数
+	 * @return : 分页结果
 	 */
 	@GetMapping("/page")
 	@ApiOperation("分页查询菜品")
@@ -70,9 +70,9 @@ public class CategoryController {
 	/**
 	 * 启用/禁用分类
 	 *
-	 * @param status
-	 * @param id
-	 * @return
+	 * @param status : 修改成的状态
+	 * @param id     : 要修改的id
+	 * @return : null
 	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("启用/禁用分类")
@@ -86,8 +86,8 @@ public class CategoryController {
 	/**
 	 * 新增分类
 	 *
-	 * @param categoryDTO
-	 * @return
+	 * @param categoryDTO: 新增菜品参数
+	 * @return : null
 	 */
 	@PostMapping
 	@ApiOperation("新增分类")
@@ -95,9 +95,15 @@ public class CategoryController {
 		log.info("新增分类参数 categoryDTO:{}", categoryDTO);
 		categoryService.addCategory(categoryDTO);
 		
-		return null;
+		return Result.success();
 	}
 	
+	/**
+	 * 根据id删除分类
+	 *
+	 * @param id: 要删除的id
+	 * @return : null
+	 */
 	@DeleteMapping
 	@ApiOperation("根据id删除分类")
 	public Result deleteCategory(Integer id) {
