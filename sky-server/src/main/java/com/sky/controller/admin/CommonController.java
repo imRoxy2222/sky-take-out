@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/admin/common")
-@Api("通用接口")
+@Api(tags = "通用接口")
 public class CommonController {
 	
 	@Autowired

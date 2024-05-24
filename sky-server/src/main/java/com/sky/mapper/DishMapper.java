@@ -60,6 +60,7 @@ public interface DishMapper {
 	 *
 	 * @param dish : 记录实体类
 	 */
+	@AutoFill(OperationType.INSERT)
 	void insert(Dish dish);
 	
 	/**
