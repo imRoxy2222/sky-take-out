@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class DishController {
 	 */
 	@GetMapping("/list")
 	@ApiOperation("根据分类id查询菜品")
+	@Cacheable(cacheNames = "dishCache", key = "#categoryId")
 	public Result<List<DishVO>> queryByCategoryId(Integer categoryId) {
 		log.info("根据分类id查询菜品参数 categoryId:{}", categoryId);
 		return Result.success(dishService.queryByCategoryId(categoryId));
