@@ -22,7 +22,7 @@ public interface DishService {
 	 * @param categoryId: 分页id
 	 * @retsurn : 查询到的数据
 	 */
-	List<Dish> queryByCategoryId(Integer categoryId);
+	List<DishVO> queryByCategoryId(Integer categoryId);
 	
 	/**
 	 * 分页查询

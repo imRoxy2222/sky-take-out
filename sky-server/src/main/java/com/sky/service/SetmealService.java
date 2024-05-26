@@ -19,37 +19,39 @@ public interface SetmealService {
 	/**
 	 * 起售/禁售套餐
 	 *
-	 * @param id
-	 * @param status
+	 * @param id : 要修改套餐的id
+	 * @param status : 要修改成的状态
 	 */
 	void modifyStatus(Long id, Integer status);
 	
 	/**
 	 * 批量删除
 	 *
-	 * @param ids
+	 * @param ids : 要删除的套餐ids
 	 */
 	void deleteSetmeal(List<Integer> ids);
 	
 	/**
 	 * 根据id查询套餐
 	 *
-	 * @param id
-	 * @return
+	 * @param id : 要查询套餐的id
+	 * @return : 套餐实体
 	 */
 	SetmealVO queryById(Long id);
 	
 	/**
 	 * 新增套餐
 	 *
-	 * @param setmealDTO
+	 * @param setmealDTO : 要新增的套餐
 	 */
 	void addSetmeal(SetmealDTO setmealDTO);
 	
 	/**
 	 * 修改套餐
 	 *
-	 * @param setmealDTO
+	 * @param setmealDTO : 要修改的套餐
 	 */
 	void updateSetmeal(SetmealDTO setmealDTO);
+	
+	List<SetmealVO> queryByCategoryId(Integer categoryId);
 }

@@ -67,4 +67,6 @@ public interface SetmealMapper {
 	 */
 	@Select("select count(id) from setmeal where id = #{id}")
 	int queryCountById(int id);
+	
+	List<Setmeal> queryByCategoryId(Setmeal setmeal);
 }

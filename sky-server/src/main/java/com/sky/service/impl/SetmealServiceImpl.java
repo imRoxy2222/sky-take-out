@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -92,6 +93,9 @@ public class SetmealServiceImpl implements SetmealService {
 		Setmeal setmeal = Setmeal.builder().id(id).build();
 		// 套餐查询
 		Setmeal query = setmealMapper.query(setmeal);
+		if (query == null) {
+			return null;
+		}
 		// 获取分类名称
 		String categoryName = categoryMapper.queryByCategoryName(query.getCategoryId());
 		
@@ -156,5 +160,38 @@ public class SetmealServiceImpl implements SetmealService {
 			setmealDish.setSetmealId(id);
 			setmealDishMapper.insert(setmealDish);
 		}
+	}
+	
+	/**
+	 * 根据categoryId查询
+	 *
+	 * @param categoryId
+	 * @return
+	 */
+	@Override
+	public List<SetmealVO> queryByCategoryId(Integer categoryId) {
+		Setmeal setmeal = Setmeal.builder()
+				.categoryId(Long.valueOf(categoryId))
+				.status(StatusConstant.ENABLE)
+				.build();
+		List<SetmealVO> result = new ArrayList<>();
+		List<Setmeal> query = setmealMapper.queryByCategoryId(setmeal);
+		for (Setmeal setmeal1 : query) {
+			SetmealVO tmp = new SetmealVO();
+			BeanUtils.copyProperties(setmeal1, tmp);
+			
+			// 添加categoryName
+			Long TmpcategoryId = setmeal1.getCategoryId();
+			String categoryName = categoryMapper.queryByCategoryName(TmpcategoryId);
+			tmp.setCategoryName(categoryName);
+			
+			// 添加setmealDishes
+			Long id = setmeal1.getId();
+			List<SetmealDish> setmealDish = setmealDishMapper.queryDishByDishId(id);
+			tmp.setSetmealDishes(setmealDish);
+			// TODO unknown
+			result.add(tmp);
+		}
+		return result;
 	}
 }

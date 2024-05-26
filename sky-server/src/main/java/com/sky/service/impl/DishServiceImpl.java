@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,7 +37,6 @@ public class DishServiceImpl implements DishService {
 	 *
 	 * @param dishDTO
 	 */
-	// TODO 未完成
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void addDish(DishDTO dishDTO) {
@@ -60,12 +60,29 @@ public class DishServiceImpl implements DishService {
 	/**
 	 * 根据分类id查询菜品
 	 *
-	 * @param categoryId
+	 * @param categoryId : 要查询的分类id
 	 * @return
 	 */
 	@Override
-	public List<Dish> queryByCategoryId(Integer categoryId) {
-		return dishMapper.queryByCategoryId(categoryId);
+	public List<DishVO> queryByCategoryId(Integer categoryId) {
+		List<Dish> dishes = dishMapper.queryByCategoryId(categoryId);
+		
+		if (dishes == null) {
+			return null;
+		}
+		// 转换为VO对象
+		List<DishVO> dishVOList = new ArrayList<>();
+		for (Dish dish : dishes) {
+			DishVO dishVO = new DishVO();
+			BeanUtils.copyProperties(dish, dishVO);
+			dishVOList.add(dishVO);
+			
+			// 查询风味
+			Long id = dish.getId();
+			List<DishFlavor> flavors = dishFlavorMapper.queryById(id);
+			dishVO.setFlavors(flavors);
+		}
+		return dishVOList;
 	}
 	
 	/**
@@ -128,6 +145,7 @@ public class DishServiceImpl implements DishService {
 		
 		List<DishFlavor> flavors = dishFlavorMapper.queryById(id);
 		dishVO.setFlavors(flavors);
+		
 		return dishVO;
 	}
 	

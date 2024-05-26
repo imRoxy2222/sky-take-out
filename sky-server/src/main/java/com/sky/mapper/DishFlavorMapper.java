@@ -17,10 +17,10 @@ public interface DishFlavorMapper {
 	void insert(DishFlavor flavor);
 	
 	/**
-	 * 通过id查询风味
+	 * 通过dish_id查询风味
 	 *
 	 * @param id: id
-	 * @return: 实体s
+	 * @return : 实体s
 	 */
 	List<DishFlavor> queryById(Long id);
 	

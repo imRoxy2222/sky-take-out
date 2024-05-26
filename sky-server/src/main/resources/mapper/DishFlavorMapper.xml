@@ -8,7 +8,7 @@
 	</insert>
 	
 	<select id="queryById" resultType="com.sky.entity.DishFlavor">
-		select *
+		select id, dish_id, name, value
 		from dish_flavor
 		where dish_id = #{id}
 	</select>

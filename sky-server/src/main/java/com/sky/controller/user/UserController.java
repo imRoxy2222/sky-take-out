@@ -9,6 +9,7 @@ import com.sky.service.impl.UserServiceImpl;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.UserLoginVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class UserController {
 	 * @param userLoginDTO : 获取到的code
 	 * @return : 登录VO
 	 */
+	@ApiOperation("登录")
 	@PostMapping("/login")
 	public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
 		log.info("微信登录参数 userLoginDTO:{}", userLoginDTO);
