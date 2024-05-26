@@ -21,6 +21,12 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	/**
+	 * 根据分类id查询菜品/套餐
+	 *
+	 * @param type: 菜品 or 套菜
+	 * @return
+	 */
 	@ApiOperation("category list")
 	@GetMapping("/list")
 	public Result<List<Category>> list(Long type) {

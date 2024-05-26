@@ -65,7 +65,8 @@ public class DishServiceImpl implements DishService {
 	 */
 	@Override
 	public List<DishVO> queryByCategoryId(Integer categoryId) {
-		List<Dish> dishes = dishMapper.queryByCategoryId(categoryId);
+		Dish queryDish = Dish.builder().status(StatusConstant.ENABLE).categoryId(categoryId).build();
+		List<Dish> dishes = dishMapper.query(queryDish);
 		
 		if (dishes == null) {
 			return null;
