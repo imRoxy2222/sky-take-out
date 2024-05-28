@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.AddressBookMapper">
+	
+	<insert id="insert">
+		insert into address_book
+		(user_id, consignee, sex, phone, province_code, province_name, city_code, city_name, district_code,
+		 district_name, detail, label)
+			value
+			(#{userId}, #{consignee}, #{sex}, #{phone}, #{provinceCode}, #{provinceName}, #{cityCode}, #{cityName},
+			 #{districtCode}, #{districtName}, #{districtName}, #{label})
+	</insert>
+	
+	<update id="update">
+		update address_book
+		<set>
+			<if test="phone != null">
+				, phone = #{phone}
+			</if>
+			<if test="consignee != null">
+				, consignee = #{consignee}
+			</if>
+			<if test="cityCode != null">
+				, city_code = #{cityCode}
+			</if>
+			<if test="provinceName != null">
+				, province_name = #{provinceName}
+			</if>
+			<if test="sex != null">
+				, sex = #{sex}
+			</if>
+			<if test="districtName != null">
+				, district_name = #{districtName}
+			</if>
+			<if test="districtCode != null">
+				, district_code = #{districtCode}
+			</if>
+			<if test="cityName != null">
+				, city_name = #{cityName}
+			</if>
+			<if test="isDefault != null">
+				, is_default = #{isDefault}
+			</if>
+			<if test="label != null">
+				, label = #{label}
+			</if>
+			<if test="detail != null">
+				, detail = #{detail}
+			</if>
+		</set>
+		<where>
+			user_id = #{userId}
+			<if test="id != null">
+				and id = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<delete id="delete">
+		delete from address_book
+		<where>
+			user_id = #{userId}
+			<if test="id != null">
+				and id = #{id}
+			</if>
+		</where>
+	</delete>
+	
+	<select id="query" resultType="com.sky.entity.AddressBook">
+		select
+		id, user_id, consignee, sex, phone, province_code, province_name, city_code, city_name, district_code,
+		district_name, detail, label, is_default
+		from address_book
+		<where>
+			user_id = #{userId}
+			<if test="isDefault != null">
+				and is_default = #{isDefault}
+			</if>
+		</where>
+	</select>
+</mapper>
