@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.sky.entity.AddressBook;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -33,4 +34,12 @@ public interface AddressBookMapper {
 	 * @param deleteParam : 删除信息
 	 */
 	void delete(AddressBook deleteParam);
+	
+	/**
+	 * 通过id查询
+	 * @param addressBookId : 地址id
+	 * @return
+	 */
+	@Select("select * from address_book where id = #{id}")
+	AddressBook getById(Long addressBookId);
 }

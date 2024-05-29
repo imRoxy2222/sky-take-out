@@ -54,9 +54,9 @@ public class AddressBookController {
 	 */
 	@GetMapping("/default")
 	@ApiOperation("查询当前用户的默认地址")
-	public Result<List<AddressBook>> getDefaultAddressBook() {
+	public Result<AddressBook> getDefaultAddressBook() {
 		log.info("查询当前用户的默认地址");
-		List<AddressBook> list = addressBookService.getAllAddressBook(true);
+		AddressBook list = addressBookService.getAllAddressBook(true).get(0);
 		return Result.success(list);
 	}
 	

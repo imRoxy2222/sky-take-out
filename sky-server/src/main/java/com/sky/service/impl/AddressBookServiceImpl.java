@@ -35,21 +35,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 	/**
 	 * 查询当前用户所有地址
 	 *
-	 * @param defalutAddress : 是否只查询默认地址
+	 * @param defaultAddress : 是否只查询默认地址
 	 * @return : 地址列表
 	 */
 	@Override
-	public List<AddressBook> getAllAddressBook(boolean defalutAddress) {
+	public List<AddressBook> getAllAddressBook(boolean defaultAddress) {
 		AddressBook quaryAddressBook = new AddressBook();
 		quaryAddressBook.setUserId(BaseContext.getCurrentId());
-//		if (defalutAddress) {
-//			quaryAddressBook.setIsDefault(DEFAULT_ADDRESS);
-//		} else {
-//			quaryAddressBook.setIsDefault(NOT_DEFAULT_ADDRESS);
-//		}
+		if (defaultAddress) {
+			quaryAddressBook.setIsDefault(DEFAULT_ADDRESS);
+		}
 		
-		List<AddressBook> list = addressBookMapper.query(quaryAddressBook);
-		return list;
+		return addressBookMapper.query(quaryAddressBook);
 	}
 	
 	/**
@@ -78,7 +75,7 @@ public class AddressBookServiceImpl implements AddressBookService {
 	 * 根据id查询地址
 	 *
 	 * @param id : 查询id
-	 * @return
+	 * @return : 地址实体
 	 */
 	@Override
 	public AddressBook queryById(Long id) {
