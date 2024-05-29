@@ -10,27 +10,9 @@
 	<update id="update">
 		update shopping_cart
 		<set>
-			<!--<if test="amount != null">-->
-			<!--	, amount = #{amount}-->
-			<!--</if>-->
-			<!--<if test="dishFlavor != null">-->
-			<!--	, dish_flavor = #{dishFlavor}-->
-			<!--</if>-->
-			<!--<if test="dishId != null">-->
-			<!--	, dish_id = #{dishId}-->
-			<!--</if>-->
-			<!--<if test="image != null">-->
-			<!--	, image = #{image}-->
-			<!--</if>-->
-			<!--<if test="name != null">-->
-			<!--	, name = #{name}-->
-			<!--</if>-->
 			<if test="number != null">
 				, number = #{number}
 			</if>
-			<!--<if test="setmealId != null">-->
-			<!--	, setmeal_id = #{setmealId}-->
-			<!--</if>-->
 		</set>
 		<where>
 			user_id = #{userId}
