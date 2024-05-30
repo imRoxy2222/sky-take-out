@@ -391,7 +391,7 @@ public class OrderServiceImpl implements OrderService {
 	public void reminder(Long id) {
 		Orders order = orderMapper.getById(id);
 		if (order == null) {
-			return;
+			throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
 		}
 		
 		Map<String, Object> claim = new HashMap<>(3);
