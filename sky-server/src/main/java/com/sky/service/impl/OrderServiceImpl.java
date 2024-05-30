@@ -1,8 +1,10 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
+import com.sky.constant.WebSoketConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.*;
 import com.sky.entity.AddressBook;
@@ -12,14 +14,17 @@ import com.sky.entity.ShoppingCart;
 import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
 import com.sky.exception.ShoppingCartBusinessException;
-import com.sky.mapper.*;
+import com.sky.mapper.AddressBookMapper;
+import com.sky.mapper.OrderDetailMapper;
+import com.sky.mapper.OrderMapper;
+import com.sky.mapper.ShoppingCartMapper;
 import com.sky.result.PageResult;
 import com.sky.service.OrderService;
-import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,15 +48,17 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private ShoppingCartMapper shoppingCartMapper;
 	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private WeChatPayUtil weChatPayUtil;
+	private WebSocketServer webSocketServer;
+//	@Autowired
+//	private UserMapper userMapper;
+//	@Autowired
+//	private WeChatPayUtil weChatPayUtil;
 	
 	/**
 	 * 提交订单
 	 *
-	 * @param ordersSubmitDTO
-	 * @return
+	 * @param ordersSubmitDTO : 提交参数
+	 * @return : 提交结果
 	 */
 	@Override
 	@Transactional
@@ -110,8 +119,8 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * 订单支付
 	 *
-	 * @param ordersPaymentDTO
-	 * @return
+	 * @param ordersPaymentDTO : 支付参数
+	 * @return : 支付结果
 	 */
 	public OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) {
 		new Thread() {
@@ -148,13 +157,22 @@ public class OrderServiceImpl implements OrderService {
 				.build();
 		
 		orderMapper.update(orders);
+		
+		// 向websocket发送消息
+		Map<String, Object> claim = new HashMap<>();
+		// 1->来单提醒  2->客户催单
+		claim.put("type", WebSoketConstant.INCOMING_ORDER_ALERT);
+		claim.put("orderId", ordersDB.getId());
+		claim.put("content", "订单号:" + outTradeNo);
+		String jsonString = JSON.toJSONString(claim);
+		webSocketServer.sendToAllClient(jsonString);
 	}
 	
 	/**
 	 * 分页查询历史订单
 	 *
-	 * @param ordersPageQueryDTO
-	 * @return
+	 * @param ordersPageQueryDTO : 查询参数
+	 * @return : 返回查询结果
 	 */
 	@Override
 	public PageResult pageQuery(OrdersPageQueryDTO ordersPageQueryDTO) {
@@ -349,6 +367,7 @@ public class OrderServiceImpl implements OrderService {
 				.userId(BaseContext.getCurrentId())
 				.id(ordersRejectionDTO.getId())
 				.rejectionReason(ordersRejectionDTO.getRejectionReason())
+				.status(Orders.REJECTED)
 				.build();
 		orderMapper.update(updateParam);
 	}
