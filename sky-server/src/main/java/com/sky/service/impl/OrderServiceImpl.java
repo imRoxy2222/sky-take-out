@@ -381,4 +381,24 @@ public class OrderServiceImpl implements OrderService {
 	public void deliveryOrder(Long id) {
 		orderMapper.updateStatusById(id, Orders.DELIVERY_IN_PROGRESS);
 	}
+	
+	/**
+	 * 催单
+	 *
+	 * @param id : 催单订单号
+	 */
+	@Override
+	public void reminder(Long id) {
+		Orders order = orderMapper.getById(id);
+		if (order == null) {
+			return;
+		}
+		
+		Map<String, Object> claim = new HashMap<>(3);
+		claim.put("type", WebSoketConstant.CLIENT_REMINDER);
+		claim.put("orderId", order.getId());
+		claim.put("content", "订单号:" + order.getNumber());
+		String jsonString = JSON.toJSONString(claim);
+		webSocketServer.sendToAllClient(jsonString);
+	}
 }

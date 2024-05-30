@@ -102,4 +102,11 @@ public interface OrderService {
 	 * @param id : 派送订单的id
 	 */
 	void deliveryOrder(Long id);
+	
+	/**
+	 * 催单
+	 *
+	 * @param id : 催单订单号
+	 */
+	void reminder(Long id);
 }
