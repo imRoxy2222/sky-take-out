@@ -1,14 +1,19 @@
 package com.sky.service;
 
-import com.sky.dto.OrdersPageQueryDTO;
-import com.sky.dto.OrdersPaymentDTO;
-import com.sky.dto.OrdersSubmitDTO;
+import com.sky.dto.*;
 import com.sky.result.PageResult;
 import com.sky.vo.OrderPaymentVO;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 
 public interface OrderService {
+	/**
+	 * 订单提交
+	 *
+	 * @param ordersSubmitDTO : 提交参数
+	 * @return : 提交结果
+	 */
 	OrderSubmitVO ordersSubmit(OrdersSubmitDTO ordersSubmitDTO);
 	
 	/**
@@ -43,7 +48,7 @@ public interface OrderService {
 	OrderVO orderDetail(Long id);
 	
 	/**
-	 * 取消订单
+	 * 用户取消订单
 	 *
 	 * @param id : 要取消订单的id
 	 */
@@ -55,4 +60,46 @@ public interface OrderService {
 	 * @param id : 再来一单的单号id
 	 */
 	void repetition(Long id);
+	
+	/**
+	 * 商家取消订单
+	 *
+	 * @param ordersCancelDTO : 取消参数
+	 */
+	void cancel(OrdersCancelDTO ordersCancelDTO);
+	
+	/**
+	 * 接单
+	 *
+	 * @param ordersConfirmDTO : 接单参数
+	 */
+	void confirmOrder(OrdersConfirmDTO ordersConfirmDTO);
+	
+	/**
+	 * 查询各个状态的订单数量
+	 *
+	 * @return : 查询结果
+	 */
+	OrderStatisticsVO statistics();
+	
+	/**
+	 * 完成订单
+	 *
+	 * @param id: 订单id
+	 */
+	void complete(Long id);
+	
+	/**
+	 * 拒单
+	 *
+	 * @param ordersRejectionDTO : 拒单参数
+	 */
+	void rejection(OrdersRejectionDTO ordersRejectionDTO);
+	
+	/**
+	 * 订单派送
+	 *
+	 * @param id : 派送订单的id
+	 */
+	void deliveryOrder(Long id);
 }
