@@ -24,6 +24,13 @@ public interface ShoppingCartMapper {
 	void insert(ShoppingCart shopping);
 	
 	/**
+	 * 一次性插入多条数据
+	 *
+	 * @param shoppingList : 购物车集合
+	 */
+	void insertBatch(List<ShoppingCart> shoppingList);
+	
+	/**
 	 * 更新一条购物车数据
 	 *
 	 * @param shopping : shoppingCartEntity
