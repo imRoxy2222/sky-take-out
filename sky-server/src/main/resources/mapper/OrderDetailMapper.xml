@@ -12,4 +12,17 @@
 			#{od.amount})
 		</foreach>
 	</insert>
+	
+	<select id="queryTopNumber" resultType="com.sky.dto.GoodsSalesDTO">
+		select name, sum(number) as number
+		from order_detail
+		where order_id in
+		<foreach collection="orderIds" separator="," item="id" open="(" close=")">
+			#{id}
+		</foreach>
+		group by name
+		order by number desc
+		limit 0, #{top}
+	</select>
+
 </mapper>

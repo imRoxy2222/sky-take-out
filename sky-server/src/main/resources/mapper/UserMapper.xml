@@ -9,4 +9,20 @@
 			(openid, name, phone, sex, id_number, avatar, create_time) VALUE
 			(#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})
 	</insert>
+	
+	<select id="queryByTime" resultType="com.sky.dto.UserStatisticDTO">
+		select count(openid) as 'createNumber', date(create_time) as createTime
+		from user
+		group by createTime
+		order by createTime
+	</select>
+	
+	<select id="queryUserTotalByTimeLT" resultType="java.lang.Integer">
+		
+		select sum(createNumber)
+		from (select count(id) as createNumber
+		      from user
+		      where date(create_time) &lt; #{begin}
+		      group by date(create_time)) as tmp
+	</select>
 </mapper>

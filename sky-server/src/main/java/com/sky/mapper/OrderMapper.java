@@ -1,12 +1,15 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.dto.OrderStatistic;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -79,4 +82,48 @@ public interface OrderMapper {
 	 */
 	@Select("select * from orders where status = #{status} and order_time < #{time}")
 	List<Orders> queryByStatusAndOrderTimeLT(Integer status, LocalDateTime time);
+	
+	/**
+	 * 统计一段时间内的金额
+	 *
+	 * @param begin : 开始时间
+	 * @param end   : 结束时间(包含)
+	 * @return : 每一天的金额集合
+	 */
+	List<BigDecimal> turnoverStatistic(LocalDate begin, LocalDate end);
+	
+	/**
+	 * 统计某一天的营业额
+	 *
+	 * @param begin : 统计营业额的天数
+	 * @return : 营业额
+	 */
+	@Select("select sum(amount) from orders where date(checkout_time) = #{begin} and status = 5 group by date(checkout_time)")
+	BigDecimal queryTurnoverByCheckoutTime(LocalDate begin);
+	
+	/**
+	 * 查询一段时间内成功完成订单的订单id
+	 *
+	 * @param begin : 开始时间
+	 * @param end   : 结束时间
+	 * @return : 订单ids
+	 */
+	List<Long> queryIdByTime(LocalDate begin, LocalDate end);
+	
+	/**
+	 * 查询一段时间内的所有订单
+	 *
+	 * @param begin :开始时间
+	 * @param end   :结束时间
+	 * @return : orders
+	 */
+	List<OrderStatistic> queryOrderByTime(LocalDate begin, LocalDate end);
+	
+	/**
+	 * 获取订单总数
+	 *
+	 * @param status : 订单状态
+	 * @return : 符合状态的订单总数
+	 */
+	Integer getOrderTotal(Integer status);
 }

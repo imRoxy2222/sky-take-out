@@ -1,9 +1,11 @@
 package com.sky.mapper;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.OrderDetail;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -23,4 +25,14 @@ public interface OrderDetailMapper {
 	 */
 	@Select("select  * from order_detail where order_id = #{orderId}")
 	List<OrderDetail> getByOrderId(Long orderId);
+	
+	
+	/**
+	 * @param top      : 要查询top几
+	 * @param begin    : 开始时间
+	 * @param end      : 结束时间
+	 * @param orderIds : 有效的order id
+	 * @return : 查询结果
+	 */
+	List<GoodsSalesDTO> queryTopNumber(int top, LocalDate begin, LocalDate end, List<Long> orderIds);
 }

@@ -55,4 +55,43 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="turnoverStatistic" resultType="java.math.BigDecimal">
+		select turnover
+		from (select date(checkout_time) as date, sum(amount) as turnover
+		      from orders
+		      where status = 5
+			    and checkout_time between '2024-05-29' and '2024-05-31'
+		      group by date
+		      order by date) as tmp;
+	</select>
+	
+	<select id="queryIdByTime" resultType="java.lang.Long">
+		select id
+		from orders
+		where date(checkout_time) between #{begin} and #{end}
+		  and status = 5;
+	</select>
+	
+	<select id="queryOrderByTime" resultType="com.sky.dto.OrderStatistic">
+		select date(checkout_time) as time,
+		count(id) as orderNumber,
+		sum(case when status = 5 then 1 else 0 end) as validNumber
+		from orders
+		<where>
+			<if test="begin != null and end != null">
+				and date(checkout_time) between #{begin} and #{end}
+			</if>
+		</where>
+		group by date(checkout_time);
+	</select>
+	
+	<select id="getOrderTotal" resultType="java.lang.Integer">
+		select count(id) from orders
+		<where>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
 </mapper>

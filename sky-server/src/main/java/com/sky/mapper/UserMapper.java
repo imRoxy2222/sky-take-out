@@ -1,10 +1,12 @@
 package com.sky.mapper;
 
-import com.sky.annotation.AutoFill;
+import com.sky.dto.UserStatisticDTO;
 import com.sky.entity.User;
-import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -26,4 +28,21 @@ public interface UserMapper {
 	
 	@Select("select * from user where id = #{userId}")
 	User getById(Long userId);
+	
+	/**
+	 * 查询一段时间内的用户
+	 *
+	 * @param begin : 开始时间
+	 * @param end   : 结束时间
+	 * @return : 查询到的用户集合
+	 */
+	List<UserStatisticDTO> queryByTime(LocalDate begin, LocalDate end);
+	
+	/**
+	 * 总数
+	 *
+	 * @param begin
+	 * @return
+	 */
+	Integer queryUserTotalByTimeLT(LocalDate begin);
 }
