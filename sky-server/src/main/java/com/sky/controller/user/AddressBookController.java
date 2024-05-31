@@ -27,7 +27,7 @@ public class AddressBookController {
 	 */
 	@PostMapping
 	@ApiOperation("新增地址")
-	public Result AddAddressBook(@RequestBody AddressBook addressBook) {
+	public Result<Object> AddAddressBook(@RequestBody AddressBook addressBook) {
 		log.info("新增地址 addressBook:{}", addressBook);
 		addressBookService.addAddressBook(addressBook);
 		
@@ -68,7 +68,7 @@ public class AddressBookController {
 	 */
 	@PutMapping("/default")
 	@ApiOperation("设置默认地址")
-	public Result setDefaultAddressBook(@RequestBody AddressBook addressBook) {
+	public Result<Object> setDefaultAddressBook(@RequestBody AddressBook addressBook) {
 		log.info("设置默认地址 addressBook:{}", addressBook);
 		addressBookService.setDefaultAddress(addressBook);
 		
@@ -79,7 +79,7 @@ public class AddressBookController {
 	 * 根据id查询地址
 	 *
 	 * @param id : 查询id
-	 * @return
+	 * @return 返回地址信息
 	 */
 	@GetMapping("/{id}")
 	@ApiOperation("根据id查询地址")
@@ -94,11 +94,11 @@ public class AddressBookController {
 	 * 根据id删除地址
 	 *
 	 * @param id : 删除id
-	 * @return
+	 * @return 统一返回结果
 	 */
 	@DeleteMapping("/{id}")
 	@ApiOperation("根据id删除地址")
-	public Result deleteAddressBookById(@PathVariable Long id) {
+	public Result<Object> deleteAddressBookById(@PathVariable Long id) {
 		log.info("根据id删除地址 id:{}", id);
 		addressBookService.deleteById(id);
 		
@@ -109,11 +109,11 @@ public class AddressBookController {
 	 * 根据id修改地址
 	 *
 	 * @param addressBook : 要修改成的地址信息
-	 * @return
+	 * @return 统一返回结果
 	 */
 	@PutMapping
 	@ApiOperation("根据id修改地址")
-	public Result modifyAddressBookById(@RequestBody AddressBook addressBook) {
+	public Result<Object> modifyAddressBookById(@RequestBody AddressBook addressBook) {
 		log.info("根据id修改地址 addressBook:{}", addressBook);
 		addressBookService.modifyAddressBookById(addressBook);
 		

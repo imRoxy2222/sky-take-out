@@ -29,8 +29,9 @@ public class SetmeanlController {
 	
 	/**
 	 * 根据分类id查询数据
+	 *
 	 * @param categoryId : 分类id
-	 * @return: List<SetmealVO>
+	 * @return List<SetmealVO>
 	 */
 	@ApiOperation("list")
 	@GetMapping("/list")
@@ -44,7 +45,7 @@ public class SetmeanlController {
 	 * 根据套餐id查询包含的菜品
 	 *
 	 * @param id: 套餐的id
-	 * @return
+	 * @return 菜品
 	 */
 	@GetMapping("/dish/{id}")
 	@ApiOperation("根据套餐id查询包含的菜品")

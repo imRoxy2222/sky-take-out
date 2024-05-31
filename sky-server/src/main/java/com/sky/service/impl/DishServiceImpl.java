@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -35,7 +36,7 @@ public class DishServiceImpl implements DishService {
 	/**
 	 * 新增菜品
 	 *
-	 * @param dishDTO
+	 * @param dishDTO 添加参数
 	 */
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
 	@Override
@@ -61,7 +62,7 @@ public class DishServiceImpl implements DishService {
 	 * 根据分类id查询菜品
 	 *
 	 * @param categoryId : 要查询的分类id
-	 * @return
+	 * @return 查询结果
 	 */
 	@Override
 	public List<DishVO> queryByCategoryId(Integer categoryId) {
@@ -155,11 +156,15 @@ public class DishServiceImpl implements DishService {
 	 *
 	 * @param ids: 要删除的id
 	 */
+	@Transactional
 	@Override
 	public void deleteByIds(List<Integer> ids) {
 		for (Integer id : ids) {
-			dishFlavorMapper.deleteByDishId(id);
-			dishMapper.delete(id);
+			Dish dish = dishMapper.queryById(Long.valueOf(id));
+			if (Objects.equals(dish.getStatus(), StatusConstant.DISABLE)) {
+				dishFlavorMapper.deleteByDishId(id);
+				dishMapper.delete(id);
+			}
 		}
 	}
 	

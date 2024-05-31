@@ -19,10 +19,11 @@ public interface SetmealService {
 	/**
 	 * 起售/禁售套餐
 	 *
-	 * @param id : 要修改套餐的id
+	 * @param id     : 要修改套餐的id
 	 * @param status : 要修改成的状态
+	 * @return
 	 */
-	void modifyStatus(Long id, Integer status);
+	boolean modifyStatus(Long id, Integer status);
 	
 	/**
 	 * 批量删除

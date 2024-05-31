@@ -47,12 +47,12 @@ public class DishController {
 	/**
 	 * 新增菜品
 	 *
-	 * @param dishDTO: 新增菜品信息
-	 *                 s * @return : success
+	 * @param dishDTO 新增菜品信息
+	 * @return :success
 	 */
 	@PostMapping
 	@ApiOperation("新增菜品")
-	public Result addDish(@RequestBody DishDTO dishDTO) {
+	public Result<Object> addDish(@RequestBody DishDTO dishDTO) {
 		log.info("新增菜品参数 dishDto:{}", dishDTO);
 		dishService.addDish(dishDTO);
 		
@@ -85,7 +85,7 @@ public class DishController {
 	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("菜品起售/停售")
-	public Result modifyStatus(@PathVariable Integer status, Long id) {
+	public Result<Object> modifyStatus(@PathVariable Integer status, Long id) {
 		log.info("菜品起售/停售参数 status:{} id:{}", status, id);
 		dishService.modifyStatus(status, id);
 		
@@ -109,12 +109,12 @@ public class DishController {
 	/**
 	 * 批量删除菜品
 	 *
-	 * @param ids
-	 * @return
+	 * @param ids dish ids
+	 * @return 统一返回结果
 	 */
 	@DeleteMapping
 	@ApiOperation("批量删除菜品")
-	public Result deleteByIds(@RequestParam List<Integer> ids) {
+	public Result<Object> deleteByIds(@RequestParam List<Integer> ids) {
 		dishService.deleteByIds(ids);
 		
 		cleanCache("dish_*");
@@ -122,9 +122,15 @@ public class DishController {
 		return Result.success();
 	}
 	
+	/**
+	 * 修改菜品
+	 *
+	 * @param dishDTO 修改参数
+	 * @return 统一返回结果
+	 */
 	@PutMapping
 	@ApiOperation("修改菜品")
-	public Result modifyDish(@RequestBody DishDTO dishDTO) {
+	public Result<Object> modifyDish(@RequestBody DishDTO dishDTO) {
 		dishService.modify(dishDTO);
 		
 		cleanCache("dish_*");

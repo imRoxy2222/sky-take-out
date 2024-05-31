@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -31,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 员工登录
 	 *
-	 * @param employeeLoginDTO
+	 * @param employeeLoginDTO 登录参数
 	 * @return employee
 	 */
 	@Override
@@ -55,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
 		}
 		
-		if (employee.getStatus() == StatusConstant.DISABLE) {
+		if (Objects.equals(employee.getStatus(), StatusConstant.DISABLE)) {
 			//账号被锁定
 			throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
 		}
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 新增员工
 	 *
-	 * @param employeeDTO
+	 * @param employeeDTO 新增员工参数
 	 */
 	@Override
 	public void addEmployee(EmployeeDTO employeeDTO) {
@@ -92,8 +93,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 分页查询员工
 	 *
-	 * @param employeePageQueryDTO
-	 * @return
+	 * @param employeePageQueryDTO 分页参数
+	 * @return 分页结果
 	 */
 	@Override
 	public PageResult queryPage(EmployeePageQueryDTO employeePageQueryDTO) {
@@ -110,8 +111,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 启用/禁用员工
 	 *
-	 * @param id
-	 * @param status
+	 * @param id 员工id
+	 * @param status 修改成的状态
 	 */
 	@Override
 	public void modifyStatus(Integer id, Integer status) {
@@ -129,7 +130,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 修改员工信息
 	 *
-	 * @param employeeDTO
+	 * @param employeeDTO 修改信息
 	 */
 	@Override
 	public void modifyEmployee(EmployeeDTO employeeDTO) {
@@ -146,8 +147,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	/**
 	 * 根据id查询员工
 	 *
-	 * @param id
-	 * @return
+	 * @param id 员工id
+	 * @return 员工实体
 	 */
 	@Override
 	public Employee queryById(Integer id) {

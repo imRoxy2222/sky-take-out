@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SetmealServiceImpl implements SetmealService {
@@ -39,8 +40,8 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 分页查询套餐
 	 *
-	 * @param setmealPageQueryDTO
-	 * @return
+	 * @param setmealPageQueryDTO 分页参数
+	 * @return 分页结果
 	 */
 	@Override
 	public PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO) {
@@ -58,24 +59,38 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 起售/禁售套餐
 	 *
-	 * @param id
-	 * @param status
+	 * @param id     套餐id
+	 * @param status 修改成的状态
+	 * @return 是否修改
 	 */
 	@Override
-	public void modifyStatus(Long id, Integer status) {
-		if (status != StatusConstant.ENABLE && status != StatusConstant.DISABLE) {
-			return;
-		}
-		
+	public boolean modifyStatus(Long id, Integer status) {
 		Setmeal setmeal = Setmeal.builder().status(status).id(id).build();
-		
-		setmealMapper.update(setmeal);
+		if (Objects.equals(status, StatusConstant.DISABLE)) {
+			setmealMapper.update(setmeal);
+		} else if (Objects.equals(status, StatusConstant.ENABLE)) {
+			// 起售之前查看是否有对应的菜品是禁售状态
+			List<SetmealDish> dishes = setmealDishMapper.queryBySetmealId(id);
+			if (dishes == null || dishes.isEmpty()) {
+				return false;
+			}
+			
+			for (SetmealDish dish : dishes) {
+				Long dishId = dish.getDishId();
+				Dish tmpDish = dishMapper.queryById(dishId);
+				if (Objects.equals(tmpDish.getStatus(), StatusConstant.DISABLE)) {
+					return false;
+				}
+			}
+			setmealMapper.update(setmeal);
+		}
+		return true;
 	}
 	
 	/**
 	 * 批量删除
 	 *
-	 * @param ids
+	 * @param ids 要修改的id集合
 	 */
 	@Override
 	public void deleteSetmeal(List<Integer> ids) {
@@ -85,8 +100,8 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 根据id查询套餐
 	 *
-	 * @param id
-	 * @return
+	 * @param id 套餐id
+	 * @return 查询到的id
 	 */
 	@Override
 	public SetmealVO queryById(Long id) {
@@ -109,7 +124,7 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 新增套餐
 	 *
-	 * @param setmealDTO
+	 * @param setmealDTO 新增套餐参数
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
@@ -128,6 +143,7 @@ public class SetmealServiceImpl implements SetmealService {
 		// 插入套餐
 		Setmeal setmeal = new Setmeal();
 		BeanUtils.copyProperties(setmealDTO, setmeal);
+		setmeal.setStatus(StatusConstant.DISABLE);
 		setmealMapper.insert(setmeal);
 		
 		
@@ -142,7 +158,7 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 修改套餐
 	 *
-	 * @param setmealDTO
+	 * @param setmealDTO 修改参数
 	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
@@ -165,8 +181,8 @@ public class SetmealServiceImpl implements SetmealService {
 	/**
 	 * 根据categoryId查询
 	 *
-	 * @param categoryId
-	 * @return
+	 * @param categoryId 要查询的category id
+	 * @return 查询结果
 	 */
 	@Override
 	public List<SetmealVO> queryByCategoryId(Integer categoryId) {

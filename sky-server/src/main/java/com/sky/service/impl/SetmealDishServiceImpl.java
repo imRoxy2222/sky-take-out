@@ -33,19 +33,18 @@ public class SetmealDishServiceImpl implements SetmealDishService {
 	 * 根据dish id查询dish
 	 *
 	 * @param id : dish id
-	 * @return
+	 * @return setmeal dish 集合
 	 */
 	@Override
 	public List<SetmealDish> queryDishByDishId(Long id) {
-		List<SetmealDish> setmealDishes = setmealDishMapper.queryDishByDishId(id);
-		return setmealDishes;
+		return setmealDishMapper.queryDishByDishId(id);
 	}
 	
 	/**
 	 * 根据套餐id查询包含的菜品
 	 *
 	 * @param id: setmeal id
-	 * @return
+	 * @return dishItem 集合
 	 */
 	@Override
 	public List<DishItemVO> queryDish(Long id) {

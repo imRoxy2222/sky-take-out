@@ -41,7 +41,7 @@ public class ShoppingCartController {
 	 */
 	@PostMapping("/add")
 	@ApiOperation("添加购物车")
-	public Result addShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
+	public Result<Object> addShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
 		log.info("添加购物车参数 shoppingCartDTO:{}", shoppingCartDTO);
 		shoppingCartService.add(shoppingCartDTO);
 		
@@ -56,7 +56,7 @@ public class ShoppingCartController {
 	 */
 	@PostMapping("/sub")
 	@ApiOperation("删除购物车中一个商品")
-	public Result deleteShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
+	public Result<Object> deleteShoppingCart(@RequestBody ShoppingCartDTO shoppingCartDTO) {
 		log.info("删除购物车参数 shoppingCartDTO:{}", shoppingCartDTO);
 		shoppingCartService.delete(shoppingCartDTO);
 		
@@ -70,7 +70,7 @@ public class ShoppingCartController {
 	 */
 	@DeleteMapping("/clean")
 	@ApiOperation("清空购物车")
-	public Result cleanShoppingCart() {
+	public Result<Object> cleanShoppingCart() {
 		log.info("清空购物车");
 		shoppingCartService.clean();
 		

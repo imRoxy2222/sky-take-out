@@ -70,4 +70,5 @@ public interface DishMapper {
 	 */
 	@Select("select * from dish")
 	List<Dish> queryAll();
+	
 }

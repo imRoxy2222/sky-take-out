@@ -30,7 +30,7 @@ public class CategoryController {
 	 */
 	@PutMapping
 	@ApiOperation("修改菜品分类")
-	public Result modifyCategory(@RequestBody CategoryDTO categoryDTO) {
+	public Result<Object> modifyCategory(@RequestBody CategoryDTO categoryDTO) {
 		log.info("修改菜品分页接口参数 categoryDTO:{}", categoryDTO);
 		categoryService.modifyCategory(categoryDTO);
 		
@@ -76,7 +76,7 @@ public class CategoryController {
 	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("启用/禁用分类")
-	public Result modifyStatus(@PathVariable Integer status, Long id) {
+	public Result<Object> modifyStatus(@PathVariable Integer status, Long id) {
 		log.info("启用/禁用分类参数 id:{} status:{}", id, status);
 		categoryService.modifyStatus(status, id);
 		
@@ -91,7 +91,7 @@ public class CategoryController {
 	 */
 	@PostMapping
 	@ApiOperation("新增分类")
-	public Result addCategory(@RequestBody CategoryDTO categoryDTO) {
+	public Result<Object> addCategory(@RequestBody CategoryDTO categoryDTO) {
 		log.info("新增分类参数 categoryDTO:{}", categoryDTO);
 		categoryService.addCategory(categoryDTO);
 		
@@ -106,7 +106,7 @@ public class CategoryController {
 	 */
 	@DeleteMapping
 	@ApiOperation("根据id删除分类")
-	public Result deleteCategory(Integer id) {
+	public Result<Object> deleteCategory(Integer id) {
 		log.info("根据id删除分类参数 id:{}", id);
 		categoryService.deleteById(id);
 		

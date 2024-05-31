@@ -25,7 +25,7 @@ public class CategoryController {
 	 * 根据分类id查询菜品/套餐
 	 *
 	 * @param type: 菜品 or 套菜
-	 * @return
+	 * @return 查询结果
 	 */
 	@ApiOperation("category list")
 	@GetMapping("/list")

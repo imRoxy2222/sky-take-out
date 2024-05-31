@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.constant.MessageConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.result.PageResult;
@@ -11,10 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -28,8 +29,8 @@ public class SetmealController {
 	/**
 	 * 分页查询
 	 *
-	 * @param setmealPageQueryDTO
-	 * @return
+	 * @param setmealPageQueryDTO 查询参数
+	 * @return 统一返回结果
 	 */
 	@GetMapping("/page")
 	@ApiOperation("分页查询")
@@ -43,30 +44,33 @@ public class SetmealController {
 	/**
 	 * 起售禁售套餐
 	 *
-	 * @param id
-	 * @param status
-	 * @return
+	 * @param id     setmeal id
+	 * @param status modifyed status
+	 * @return 统一返回结果
 	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("起售禁售接口")
 	@CacheEvict(cacheNames = "setmealCache", allEntries = true)
-	public Result modifyStatus(Long id, @PathVariable Integer status) {
+	public Result<String> modifyStatus(Long id, @PathVariable Integer status) {
 		log.info("套餐分页查询参数 id:{} status:{}", id, status);
-		setmealService.modifyStatus(id, status);
+		boolean b = setmealService.modifyStatus(id, status);
 		
+		if (!b) {
+			return Result.success(MessageConstant.SETMEAL_ENABLE_FAILED);
+		}
 		return Result.success();
 	}
 	
 	/**
 	 * 批量删除套餐
 	 *
-	 * @param ids
-	 * @return
+	 * @param ids setmeal ids
+	 * @return 统一返回结果
 	 */
 	@DeleteMapping
 	@ApiOperation("批量删除套餐")
 	@CacheEvict(cacheNames = "setmealCache", allEntries = true)
-	public Result deleteSetmeal(@RequestParam List<Integer> ids) {
+	public Result<Objects> deleteSetmeal(@RequestParam List<Integer> ids) {
 		log.info("批量删除套餐参数 ids:{}", ids);
 		setmealService.deleteSetmeal(ids);
 		
@@ -76,8 +80,8 @@ public class SetmealController {
 	/**
 	 * 根据id查询套餐
 	 *
-	 * @param id
-	 * @return
+	 * @param id setmeal id
+	 * @return 统一返回结果
 	 */
 	@GetMapping("/{id}")
 	@ApiOperation("根据id查询套餐")
@@ -91,13 +95,13 @@ public class SetmealController {
 	/**
 	 * 新增套餐
 	 *
-	 * @param setmealDTO
-	 * @return
+	 * @param setmealDTO setmeal参数
+	 * @return 统一返回结果
 	 */
 	@PostMapping
 	@ApiOperation("新增套餐")
 	@CacheEvict(cacheNames = "setmealCache", allEntries = true)
-	public Result addSetmeal(@RequestBody SetmealDTO setmealDTO) {
+	public Result<Objects> addSetmeal(@RequestBody SetmealDTO setmealDTO) {
 		log.info("新增套餐参数 setmealDTO:{}", setmealDTO);
 		setmealService.addSetmeal(setmealDTO);
 		
@@ -107,13 +111,13 @@ public class SetmealController {
 	/**
 	 * 修改套餐
 	 *
-	 * @param setmealDTO
-	 * @return
+	 * @param setmealDTO 修改参数
+	 * @return 统一返回结果
 	 */
 	@PutMapping
 	@ApiOperation("修改套餐")
 	@CacheEvict(cacheNames = "setmealCache", allEntries = true)
-	public Result updateSetmeal(@RequestBody SetmealDTO setmealDTO) {
+	public Result<Objects> updateSetmeal(@RequestBody SetmealDTO setmealDTO) {
 		setmealService.updateSetmeal(setmealDTO);
 		
 		return Result.success();

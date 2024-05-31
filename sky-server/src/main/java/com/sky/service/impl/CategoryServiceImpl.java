@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -18,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 修改菜品分类
 	 *
-	 * @param categoryDTO
+	 * @param categoryDTO 修改信息
 	 */
 	@Override
 	public void modifyCategory(CategoryDTO categoryDTO) {
@@ -47,8 +45,8 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 显示所有菜品/套餐
 	 *
-	 * @param type
-	 * @return
+	 * @param type 类型
+	 * @return 查询结果
 	 */
 	@Override
 	public List<Category> list(Long type) {
@@ -58,8 +56,8 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 分页显示菜品/套餐
 	 *
-	 * @param categoryPageQueryDTO
-	 * @return
+	 * @param categoryPageQueryDTO 分页参数
+	 * @return 分页结果
 	 */
 	@Override
 	public PageResult page(CategoryPageQueryDTO categoryPageQueryDTO) {
@@ -75,8 +73,8 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 启用/禁用分类
 	 *
-	 * @param status
-	 * @param id
+	 * @param status 修改成的状态
+	 * @param id     要修改的id
 	 */
 	@Override
 	public void modifyStatus(Integer status, Long id) {
@@ -91,7 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 新增分类
 	 *
-	 * @param categoryDTO
+	 * @param categoryDTO 新增参数
 	 */
 	@Override
 	public void addCategory(CategoryDTO categoryDTO) {
@@ -111,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
 	/**
 	 * 根据id删除分类
 	 *
-	 * @param id
+	 * @param id 要删除的id
 	 */
 	@Override
 	public void deleteById(Integer id) {

@@ -37,8 +37,8 @@ public class EmployeeController {
 	/**
 	 * 登录
 	 *
-	 * @param employeeLoginDTO
-	 * @return
+	 * @param employeeLoginDTO 登录参数
+	 * @return 统一返回结果
 	 */
 	@PostMapping("/login")
 	@ApiOperation("员工登录接口")
@@ -68,7 +68,7 @@ public class EmployeeController {
 	/**
 	 * 退出
 	 *
-	 * @return
+	 * @return 统一返回结果
 	 */
 	@PostMapping("/logout")
 	@ApiOperation("员工登出接口")
@@ -79,7 +79,7 @@ public class EmployeeController {
 	/**
 	 * 新增员工
 	 *
-	 * @param employeeDTO
+	 * @param employeeDTO 新增员工参数
 	 * @return Result<String>
 	 */
 	@PostMapping
@@ -94,8 +94,8 @@ public class EmployeeController {
 	/**
 	 * 分页查询
 	 *
-	 * @param employeePageQueryDTO
-	 * @return
+	 * @param employeePageQueryDTO 分页参数
+	 * @return 分页结果
 	 */
 	@GetMapping("/page")
 	@ApiOperation("分页查询员工接口")
@@ -109,13 +109,13 @@ public class EmployeeController {
 	/**
 	 * 启用/禁用员工
 	 *
-	 * @param id
-	 * @param status
-	 * @return
+	 * @param id     员工id
+	 * @param status 修改的状态
+	 * @return 统一返回结果
 	 */
 	@PostMapping("/status/{status}")
 	@ApiOperation("启用/禁用员工接口")
-	public Result modifyStatus(Integer id, @PathVariable Integer status) {
+	public Result<Object> modifyStatus(Integer id, @PathVariable Integer status) {
 		log.info("启用/禁用员工参数 id:{} status:{}", id, status);
 		employeeService.modifyStatus(id, status);
 		
@@ -125,12 +125,12 @@ public class EmployeeController {
 	/**
 	 * 编辑员工接口
 	 *
-	 * @param employeeDTO
-	 * @return
+	 * @param employeeDTO 编辑参数
+	 * @return 统一返回结果
 	 */
 	@PutMapping
 	@ApiOperation("编辑员工接口")
-	public Result modifyEmployee(@RequestBody EmployeeDTO employeeDTO) {
+	public Result<Object> modifyEmployee(@RequestBody EmployeeDTO employeeDTO) {
 		log.info("编辑员工接口参数 employeeDTO:{}", employeeDTO);
 		employeeService.modifyEmployee(employeeDTO);
 		
@@ -140,8 +140,8 @@ public class EmployeeController {
 	/**
 	 * 根据id查询员工
 	 *
-	 * @param id
-	 * @return
+	 * @param id 员工id
+	 * @return 统一返回结果
 	 */
 	@GetMapping("/{id}")
 	@ApiOperation("根据id查询员工接口")
