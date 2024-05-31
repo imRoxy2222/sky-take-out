@@ -62,6 +62,7 @@ public interface SetmealMapper {
 	
 	/**
 	 * 查询当前id是否已被使用
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -69,4 +70,12 @@ public interface SetmealMapper {
 	int queryCountById(int id);
 	
 	List<Setmeal> queryByCategoryId(Setmeal setmeal);
+	
+	/**
+	 * 查询所有套餐
+	 *
+	 * @return 套餐集合
+	 */
+	@Select("select * from setmeal")
+	List<Setmeal> queryAll();
 }

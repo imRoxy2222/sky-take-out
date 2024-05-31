@@ -15,8 +15,8 @@ public interface DishMapper {
 	/**
 	 * 统计数量通过category id
 	 *
-	 * @param id
-	 * @return
+	 * @param id : category id
+	 * @return : 查询结果
 	 */
 	@Select("select count(id) from dish where category_id = #{id}")
 	int countByCategoryId(Integer id);
@@ -25,8 +25,8 @@ public interface DishMapper {
 	/**
 	 * 通过自身id查询
 	 *
-	 * @param dishId
-	 * @return
+	 * @param dishId : dish id
+	 * @return : 查询结果
 	 */
 	@Select("select * from dish where id = #{dishId}")
 	Dish queryById(Long dishId);
@@ -34,8 +34,8 @@ public interface DishMapper {
 	/**
 	 * 分页查询
 	 *
-	 * @param dish
-	 * @return
+	 * @param dish : 查询参数
+	 * @return : 查询结果
 	 */
 	Page<Dish> query(Dish dish);
 	
@@ -62,4 +62,12 @@ public interface DishMapper {
 	 */
 	@Delete("delete from dish where id = #{id}")
 	void delete(Integer id);
+	
+	/**
+	 * 查询所有dish
+	 *
+	 * @return dish list
+	 */
+	@Select("select * from dish")
+	List<Dish> queryAll();
 }

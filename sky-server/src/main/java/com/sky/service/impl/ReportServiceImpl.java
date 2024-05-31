@@ -144,7 +144,7 @@ public class ReportServiceImpl implements ReportService {
 	 */
 	@Override
 	public OrderReportVO ordersStatistic(LocalDate begin, LocalDate end) {
-		// time column and orderNumber column
+		// time orderNumber validNumber 列
 		List<OrderStatistic> allOrder = orderMapper.queryOrderByTime(begin, end);
 		
 		// dateList string日期
@@ -163,11 +163,17 @@ public class ReportServiceImpl implements ReportService {
 		// orderCountList string 订单数列表
 		List<Integer> orderCountList = new ArrayList<>();
 		for (LocalDate localDate : dateList) {
+			boolean flag = true;
 			for (OrderStatistic orderStatistic : allOrder) {
 				if (orderStatistic.getTime().equals(localDate)) {
 					orderCountList.add(orderStatistic.getOrderNumber());
 					validOrderCountList.add(orderStatistic.getValidNumber());
+					flag = false;
 				}
+			}
+			if (flag) {
+				orderCountList.add(0);
+				validOrderCountList.add(0);
 			}
 		}
 		
@@ -182,7 +188,7 @@ public class ReportServiceImpl implements ReportService {
 		double orderCompletionRate = validOrderCount * 1.0 / totalOrderCount;
 		
 		
-		OrderReportVO ord = OrderReportVO.builder()
+		return OrderReportVO.builder()
 				.dateList(StringUtils.join(dateList, ","))
 				.orderCompletionRate(orderCompletionRate)
 				.orderCountList(StringUtils.join(orderCountList, ","))
@@ -190,6 +196,5 @@ public class ReportServiceImpl implements ReportService {
 				.validOrderCount(validOrderCount)
 				.validOrderCountList(StringUtils.join(validOrderCountList, ","))
 				.build();
-		return ord;
 	}
 }

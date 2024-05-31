@@ -126,4 +126,22 @@ public interface OrderMapper {
 	 * @return : 符合状态的订单总数
 	 */
 	Integer getOrderTotal(Integer status);
+	
+	/**
+	 * 返回当天某状态的订单数量
+	 *
+	 * @param time    : 第几天
+	 * @param status: 订单状态
+	 * @return : 当前某状态订单数量
+	 */
+	Integer queryTotalForTime(LocalDate time, Integer status);
+	
+	/**
+	 * 查询某一天的所有订单
+	 *
+	 * @param time : 时间
+	 * @return : 当天所有订单
+	 */
+	@Select("select * from orders where date(checkout_time) = #{time}")
+	List<Orders> queryAllByTime(LocalDate time);
 }

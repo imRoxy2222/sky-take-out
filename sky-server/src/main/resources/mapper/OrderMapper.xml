@@ -94,4 +94,15 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="queryTotalForTime" resultType="java.lang.Integer">
+		select count(*)
+		from orders
+		<where>
+			date(checkout_time) = #{time}
+			<if test="status != null">
+				and status = #{status}
+			</if>
+		</where>
+	</select>
 </mapper>
