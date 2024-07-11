@@ -9,7 +9,6 @@ import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,12 +22,14 @@ import java.util.Set;
 @RequestMapping("/admin/dish")
 @Api(tags = "菜品相关接口")
 public class DishController {
+	private final DishService dishService;
+	private final RedisTemplate redisTemplate;
 	
-	@Autowired
-	private DishService dishService;
-	@Qualifier("redisTemplate")
-	@Autowired
-	private RedisTemplate redisTemplate;
+	public DishController(DishService dishService,
+	                      @Qualifier("redisTemplate") RedisTemplate redisTemplate) {
+		this.dishService = dishService;
+		this.redisTemplate = redisTemplate;
+	}
 	
 	/**
 	 * 根据分类id查询菜品

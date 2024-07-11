@@ -22,8 +22,12 @@ import java.time.LocalDate;
 @RequestMapping("/admin/report")
 @Api(tags = "数据统计接口")
 public class ReportController {
+	private final ReportService reportService;
+	
 	@Autowired
-	private ReportService reportService;
+	public ReportController(ReportService reportService) {
+		this.reportService = reportService;
+	}
 	
 	/**
 	 * 营业额统计

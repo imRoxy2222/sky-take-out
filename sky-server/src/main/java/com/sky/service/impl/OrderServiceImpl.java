@@ -39,25 +39,29 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-	@Autowired
-	private OrderMapper orderMapper;
-	@Autowired
-	private AddressBookMapper addressBookMapper;
-	@Autowired
-	private OrderDetailMapper orderDetailMapper;
-	@Autowired
-	private ShoppingCartMapper shoppingCartMapper;
-	@Autowired
-	private WebSocketServer webSocketServer;
-//	@Autowired
-//	private UserMapper userMapper;
-//	@Autowired
-//	private WeChatPayUtil weChatPayUtil;
+	private final OrderMapper orderMapper;
+	private final AddressBookMapper addressBookMapper;
+	private final OrderDetailMapper orderDetailMapper;
+	private final ShoppingCartMapper shoppingCartMapper;
+	private final WebSocketServer webSocketServer;
 	
-	/**
-	 * 提交订单
-	 *
-	 * @param ordersSubmitDTO : 提交参数
+	@Autowired
+	public OrderServiceImpl(OrderMapper orderMapper,
+	                        AddressBookMapper addressBookMapper,
+	                        OrderDetailMapper orderDetailMapper,
+	                        ShoppingCartMapper shoppingCartMapper,
+	                        WebSocketServer webSocketServer) {
+		this.orderMapper = orderMapper;
+		this.addressBookMapper = addressBookMapper;
+		this.orderDetailMapper = orderDetailMapper;
+		this.shoppingCartMapper = shoppingCartMapper;
+		this.webSocketServer = webSocketServer;
+	}
+	
+	/*
+	  提交订单
+	 
+	  @param ordersSubmitDTO : 提交参数
 	 * @return : 提交结果
 	 */
 	@Override

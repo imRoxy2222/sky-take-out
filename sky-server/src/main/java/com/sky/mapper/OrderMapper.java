@@ -127,6 +127,9 @@ public interface OrderMapper {
 	 */
 	Integer getOrderTotal(Integer status);
 	
+	// 带有起止时间的获取订单总数
+	Integer getOrderTotal(Integer status, LocalDate begin, LocalDate end);
+	
 	/**
 	 * 返回当天某状态的订单数量
 	 *

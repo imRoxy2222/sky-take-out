@@ -25,12 +25,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
+	private final OrderMapper orderMapper;
+	private final OrderDetailMapper orderDetailMapper;
+	private final UserMapper userMapper;
+	
 	@Autowired
-	private OrderMapper orderMapper;
-	@Autowired
-	private OrderDetailMapper orderDetailMapper;
-	@Autowired
-	private UserMapper userMapper;
+	public ReportServiceImpl(OrderMapper orderMapper,
+	                         OrderDetailMapper orderDetailMapper,
+	                         UserMapper userMapper) {
+		this.orderMapper = orderMapper;
+		this.orderDetailMapper = orderDetailMapper;
+		this.userMapper = userMapper;
+	}
 	
 	/**
 	 * 营业额统计
@@ -145,6 +151,7 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public OrderReportVO ordersStatistic(LocalDate begin, LocalDate end) {
 		// time orderNumber validNumber 列
+		// 这段时间内的所有订单
 		List<OrderStatistic> allOrder = orderMapper.queryOrderByTime(begin, end);
 		
 		// dateList string日期
@@ -178,15 +185,17 @@ public class ReportServiceImpl implements ReportService {
 		}
 		
 		// totalOrderCount integer 订单总数
-		Integer totalOrderCount = orderMapper.getOrderTotal(null);
+		Integer totalOrderCount = orderMapper.getOrderTotal(null, begin, end);
 		
 		// validOrderCount integer 有效订单数
-		Integer validOrderCount = orderMapper.getOrderTotal(Orders.COMPLETED);
+		Integer validOrderCount = orderMapper.getOrderTotal(Orders.COMPLETED, begin, end);
 		
 		
 		// orderCompletionRate number 订单完成率
-		double orderCompletionRate = validOrderCount * 1.0 / totalOrderCount;
-		
+		double orderCompletionRate = 1;
+		if (totalOrderCount != 0 && validOrderCount != 0) {
+			orderCompletionRate = validOrderCount * 1.0 / totalOrderCount;
+		}
 		
 		return OrderReportVO.builder()
 				.dateList(StringUtils.join(dateList, ","))

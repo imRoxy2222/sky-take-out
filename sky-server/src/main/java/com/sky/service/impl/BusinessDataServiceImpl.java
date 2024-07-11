@@ -1,6 +1,7 @@
 package com.sky.service.impl;
 
 import com.sky.constant.StatusConstant;
+import com.sky.dto.UserStatisticDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.Orders;
 import com.sky.entity.Setmeal;
@@ -25,28 +26,41 @@ import static com.sky.entity.Orders.COMPLETED;
 
 @Service
 public class BusinessDataServiceImpl implements BusinessDataService {
+	private final UserMapper userMapper;
+	private final OrderMapper orderMapper;
+	private final DishMapper dishMapper;
+	private final SetmealMapper setmealMapper;
+	
 	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private OrderMapper orderMapper;
-	@Autowired
-	private DishMapper dishMapper;
-	@Autowired
-	private SetmealMapper setmealMapper;
+	public BusinessDataServiceImpl(UserMapper userMapper,
+	                               OrderMapper orderMapper,
+	                               DishMapper dishMapper,
+	                               SetmealMapper setmealMapper) {
+		this.userMapper = userMapper;
+		this.orderMapper = orderMapper;
+		this.dishMapper = dishMapper;
+		this.setmealMapper = setmealMapper;
+	}
 	
 	@Override
 	public BusinessDataVO getData() {
 		// 新增用户数
-		Integer newUsers = userMapper.queryByTime(LocalDate.MIN, LocalDate.MAX).size();
+		Integer newUsers = 0;
+		List<UserStatisticDTO> userStatisticDTOS = userMapper.queryByTime(LocalDate.MIN, LocalDate.MAX);
+		for (UserStatisticDTO dto : userStatisticDTOS) {
+			if (dto.getCreateTime().equals(LocalDate.now())) {
+				newUsers = dto.getCreateNumber();
+				break;
+			}
+		}
 		
 		// 订单完成率
-		List<Orders> orders = orderMapper.queryAll();
 		Integer orderTotal = orderMapper.queryTotalForTime(LocalDate.now(), null); // 当前订单总数
 		Integer orderComplete = orderMapper.queryTotalForTime(LocalDate.now(), COMPLETED);// 完成了的订单
 		
 		double orderCompletionRate = 1.0;
 		if (orderTotal != 0 && orderComplete != 0) {
-			orderCompletionRate = orderTotal * 1.0 / orderComplete; // 订单完完成率
+			orderCompletionRate = orderComplete * 1.0 / orderTotal; // 订单完完成率
 		}
 		
 		// 营业额

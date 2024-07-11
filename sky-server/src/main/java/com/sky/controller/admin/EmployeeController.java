@@ -28,11 +28,15 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "员工相关接口")
 public class EmployeeController {
+	private final EmployeeService employeeService;
+	private final JwtProperties jwtProperties;
 	
 	@Autowired
-	private EmployeeService employeeService;
-	@Autowired
-	private JwtProperties jwtProperties;
+	public EmployeeController(EmployeeService employeeService,
+	                          JwtProperties jwtProperties) {
+		this.employeeService = employeeService;
+		this.jwtProperties = jwtProperties;
+	}
 	
 	/**
 	 * 登录
