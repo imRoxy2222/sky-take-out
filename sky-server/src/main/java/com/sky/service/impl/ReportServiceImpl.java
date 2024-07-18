@@ -29,7 +29,6 @@ public class ReportServiceImpl implements ReportService {
 	private final OrderDetailMapper orderDetailMapper;
 	private final UserMapper userMapper;
 	
-	@Autowired
 	public ReportServiceImpl(OrderMapper orderMapper,
 	                         OrderDetailMapper orderDetailMapper,
 	                         UserMapper userMapper) {

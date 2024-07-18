@@ -31,7 +31,6 @@ public class EmployeeController {
 	private final EmployeeService employeeService;
 	private final JwtProperties jwtProperties;
 	
-	@Autowired
 	public EmployeeController(EmployeeService employeeService,
 	                          JwtProperties jwtProperties) {
 		this.employeeService = employeeService;

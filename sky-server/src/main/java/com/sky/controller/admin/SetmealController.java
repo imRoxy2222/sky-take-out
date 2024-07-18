@@ -23,8 +23,11 @@ import java.util.Objects;
 @Api(tags = "套餐相关接口")
 public class SetmealController {
 	
-	@Autowired
-	private SetmealService setmealService;
+	private final SetmealService setmealService;
+	
+	public SetmealController(SetmealService setmealService) {
+		this.setmealService = setmealService;
+	}
 	
 	/**
 	 * 分页查询

@@ -14,10 +14,13 @@ import java.util.List;
 
 @Service
 public class SetmealDishServiceImpl implements SetmealDishService {
-	@Autowired
-	private SetmealDishMapper setmealDishMapper;
-	@Autowired
-	private DishMapper dishMapper;
+	private final SetmealDishMapper setmealDishMapper;
+	private final DishMapper dishMapper;
+	
+	public SetmealDishServiceImpl(SetmealDishMapper setmealDishMapper, DishMapper dishMapper) {
+		this.setmealDishMapper = setmealDishMapper;
+		this.dishMapper = dishMapper;
+	}
 	
 	/**
 	 * 根据自身id删除

@@ -18,9 +18,12 @@ import javax.validation.constraints.NotNull;
 @Api(tags = "管理员端营业状态")
 public class ShopController {
 	
-	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 	private static final String SHOP_STATUS = "SHOP_STATUS";
+	
+	public ShopController(RedisTemplate<String, Object> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
 	
 	/**
 	 * 获取营业状态

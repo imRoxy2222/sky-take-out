@@ -31,7 +31,6 @@ public class BusinessDataServiceImpl implements BusinessDataService {
 	private final DishMapper dishMapper;
 	private final SetmealMapper setmealMapper;
 	
-	@Autowired
 	public BusinessDataServiceImpl(UserMapper userMapper,
 	                               OrderMapper orderMapper,
 	                               DishMapper dishMapper,

@@ -10,20 +10,22 @@ import com.sky.mapper.UserMapper;
 import com.sky.properties.WeChatProperties;
 import com.sky.service.UserService;
 import com.sky.utils.HttpClientUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.Map;   
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
 	
-	@Autowired
-	private WeChatProperties weChatProperties;
-	@Autowired
-	private UserMapper userMapper;
+	private final WeChatProperties weChatProperties;
+	private final UserMapper userMapper;
+	
+	public UserServiceImpl(WeChatProperties weChatProperties, UserMapper userMapper) {
+		this.weChatProperties = weChatProperties;
+		this.userMapper = userMapper;
+	}
 	
 	/**
 	 * 微信登录
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService {
 	
 	private String getOpenid(UserLoginDTO userLoginDTO) {
 		// 调用微信接口,获得当前用户的openid
-		Map<String, String> paramMap = new HashMap<String, String>();
+		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("appid", weChatProperties.getAppid());
 		paramMap.put("secret", weChatProperties.getSecret());
 		paramMap.put("js_code", userLoginDTO.getCode());

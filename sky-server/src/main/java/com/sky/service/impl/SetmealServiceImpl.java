@@ -28,14 +28,20 @@ import java.util.Objects;
 @Service
 public class SetmealServiceImpl implements SetmealService {
 	
-	@Autowired
-	private SetmealMapper setmealMapper;
-	@Autowired
-	private DishMapper dishMapper;
-	@Autowired
-	private SetmealDishMapper setmealDishMapper;
-	@Autowired
-	private CategoryMapper categoryMapper;
+	private final SetmealMapper setmealMapper;
+	private final DishMapper dishMapper;
+	private final SetmealDishMapper setmealDishMapper;
+	private final CategoryMapper categoryMapper;
+	
+	public SetmealServiceImpl(SetmealMapper setmealMapper,
+	                          DishMapper dishMapper,
+	                          SetmealDishMapper setmealDishMapper,
+	                          CategoryMapper categoryMapper) {
+		this.setmealMapper = setmealMapper;
+		this.dishMapper = dishMapper;
+		this.setmealDishMapper = setmealDishMapper;
+		this.categoryMapper = categoryMapper;
+	}
 	
 	/**
 	 * 分页查询套餐

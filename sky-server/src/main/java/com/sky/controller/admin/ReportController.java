@@ -24,7 +24,6 @@ import java.time.LocalDate;
 public class ReportController {
 	private final ReportService reportService;
 	
-	@Autowired
 	public ReportController(ReportService reportService) {
 		this.reportService = reportService;
 	}

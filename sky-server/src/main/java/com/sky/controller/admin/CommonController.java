@@ -15,8 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(tags = "通用接口")
 public class CommonController {
 	
-	@Autowired
-	private CommonService commonService;
+	private final CommonService commonService;
+	
+	public CommonController(CommonService commonService) {
+		this.commonService = commonService;
+	}
 	
 	@PostMapping("/upload")
 	@ApiOperation("文件上传接口")

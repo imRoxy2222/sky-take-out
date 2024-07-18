@@ -4,15 +4,15 @@ import com.sky.context.BaseContext;
 import com.sky.entity.AddressBook;
 import com.sky.mapper.AddressBookMapper;
 import com.sky.service.AddressBookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AddressBookServiceImpl implements AddressBookService {
-	@Autowired
-	private AddressBookMapper addressBookMapper;
+	private final AddressBookMapper addressBookMapper;
 	
 	private static final Integer DEFAULT_ADDRESS = 1;
 	private static final Integer NOT_DEFAULT_ADDRESS = 0;

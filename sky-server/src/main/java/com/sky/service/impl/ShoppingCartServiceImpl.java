@@ -7,7 +7,6 @@ import com.sky.entity.Setmeal;
 import com.sky.entity.ShoppingCart;
 import com.sky.mapper.*;
 import com.sky.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,17 +15,23 @@ import java.util.List;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-	@Autowired
-	private ShoppingCartMapper shoppingCartMapper;
-	@Autowired
-	private SetmealMapper setmealMapper;
-	@Autowired
-	private DishMapper dishMapper;
-	@Autowired
-	private DishFlavorMapper dishFlavorMapper;
-	@Autowired
-	private SetmealDishMapper setmealDishMapper;
+	private final ShoppingCartMapper shoppingCartMapper;
+	private final SetmealMapper setmealMapper;
+	private final DishMapper dishMapper;
+	private final DishFlavorMapper dishFlavorMapper;
+	private final SetmealDishMapper setmealDishMapper;
 	
+	public ShoppingCartServiceImpl(ShoppingCartMapper shoppingCartMapper,
+	                               SetmealMapper setmealMapper,
+	                               DishMapper dishMapper,
+	                               DishFlavorMapper dishFlavorMapper,
+	                               SetmealDishMapper setmealDishMapper) {
+		this.shoppingCartMapper = shoppingCartMapper;
+		this.setmealMapper = setmealMapper;
+		this.dishMapper = dishMapper;
+		this.dishFlavorMapper = dishFlavorMapper;
+		this.setmealDishMapper = setmealDishMapper;
+	}
 	
 	/**
 	 * 查询购物车

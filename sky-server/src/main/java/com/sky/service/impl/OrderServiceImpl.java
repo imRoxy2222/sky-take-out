@@ -26,7 +26,6 @@ import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +44,6 @@ public class OrderServiceImpl implements OrderService {
 	private final ShoppingCartMapper shoppingCartMapper;
 	private final WebSocketServer webSocketServer;
 	
-	@Autowired
 	public OrderServiceImpl(OrderMapper orderMapper,
 	                        AddressBookMapper addressBookMapper,
 	                        OrderDetailMapper orderDetailMapper,
